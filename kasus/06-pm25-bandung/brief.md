@@ -1,6 +1,6 @@
 # Kasus 06 · Prakiraan PM2.5 Bandung
 
-**Klien:** tim kesehatan lingkungan dinas kota (fiktif) yang mengelola tiga sensor kualitas udara.
+**Klien:** tim kesehatan lingkungan dinas kota (fiktif) yang mengelola lima sensor kualitas udara.
 
 > *"Kami mau kasih peringatan ke warga sebelum udaranya jelek, bukan setelahnya. Misalnya jam 3 sore sudah
 > bisa bilang: jam 6 nanti PM2.5 di Soekarno-Hatta bakal tinggi, yang punya asma sebaiknya pakai masker."*
@@ -11,12 +11,12 @@ Model yang memprediksi **PM2.5 tiga jam ke depan** di tiap stasiun, dari data sa
 
 ## Data
 
-`data/pm25_bandung.csv`: satu baris = satu stasiun pada satu jam, Juli 2025 – Juni 2026.
+`data/raw.csv`: satu baris = satu stasiun pada satu jam, Juli 2024 – Juni 2026.
 
 | Kolom | Arti |
 |---|---|
 | `waktu` | awal jam (seharusnya waktu lokal WIB) |
-| `stasiun` | Dago, Soekarno-Hatta, Cibeureum |
+| `stasiun` | Dago, Soekarno-Hatta, Cibeureum, Antapani, Ujungberung |
 | `pm25_ugm3` | konsentrasi PM2.5 (µg/m³) |
 | `suhu_C` | suhu udara (°C) |
 | `kelembaban_pct` | kelembaban udara (%) |
@@ -24,8 +24,7 @@ Model yang memprediksi **PM2.5 tiga jam ke depan** di tiap stasiun, dari data sa
 | `arah_angin_deg` | arah angin (derajat) |
 | `curah_hujan_mm` | hujan jam itu (mm) |
 
-**Target dibuat sendiri:** untuk tiap stasiun, target = `pm25_ugm3` tiga jam setelahnya. Hati-hati: geser datanya
-**per stasiun**, dan pastikan jamnya urut serta lengkap dulu.
+**Target dibuat sendiri:** untuk tiap stasiun, target = `pm25_ugm3` tiga jam setelahnya.
 
 ## Aturan penting
 
@@ -41,8 +40,7 @@ Model yang memprediksi **PM2.5 tiga jam ke depan** di tiap stasiun, dari data sa
 
 ## Baseline wajib
 
-**"Tiga jam lagi sama dengan sekarang"** (*persistence*): prediksi = PM2.5 jam ini. Kelihatannya sepele, tapi
-di data polusi baseline ini susah dikalahkan.
+**"Tiga jam lagi sama dengan sekarang"** (*persistence*): prediksi = PM2.5 jam ini.
 
 ## App untuk siapa
 
@@ -51,6 +49,5 @@ kategorinya (baik / sedang / tidak sehat), plus saran.
 
 ## Catatan
 
-Datanya kotor. Petunjuk: tulisan nama stasiun belum seragam. Coba juga plot rata-rata PM2.5 per jam (0–23)
-untuk tiap stasiun dan tiap bulan. Polusi lalu lintas biasanya puncak di jam berangkat dan pulang kerja; kalau
-ada stasiun yang puncaknya di jam aneh, cari tahu kenapa.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

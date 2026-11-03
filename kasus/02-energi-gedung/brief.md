@@ -12,7 +12,7 @@ Model yang memprediksi **konsumsi listrik (kWh) per jam untuk besok**.
 
 ## Data
 
-`data/energi_gedung.csv`: satu baris = satu jam, Januari 2025 – Juni 2026.
+`data/raw.csv`: satu baris = satu jam, Januari 2024 – Juni 2026.
 
 | Kolom | Arti |
 |---|---|
@@ -35,12 +35,11 @@ Prediksi dibuat **hari ini untuk besok**. Jadi:
 
 - **Metrik utama: MAE (kWh).**
 - **Split berdasarkan waktu**, bukan acak. Contoh: train sampai Februari 2026, validation Maret–April 2026,
-  test Mei–Juni 2026. Data acak bikin model "nyontek" dari jam di sebelahnya.
+  test Mei–Juni 2026.
 
 ## Baseline wajib
 
 **"Sama dengan minggu lalu"**: prediksi jam ini = konsumsi di jam yang sama 7 hari sebelumnya (lag 168 jam).
-Tanpa model sama sekali. Kalau model kalian nggak bisa ngalahin ini, model kalian belum berguna.
 
 ## App untuk siapa
 
@@ -49,5 +48,5 @@ konsumsi 24 jam dan totalnya.
 
 ## Catatan
 
-Datanya kotor. Petunjuk: cek apakah semua baris bisa dibaca jadi tanggal, apakah jamnya lengkap (nggak ada
-yang hilang atau dobel), dan apakah semua angka konsumsi masuk akal untuk satu gedung.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

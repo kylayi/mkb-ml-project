@@ -13,7 +13,7 @@ lengkap dengan probabilitasnya.
 
 ## Data
 
-`data/pengiriman.csv`: satu baris = satu paket dari hub Bandung, Januari 2025 – Juni 2026.
+`data/raw.csv`: satu baris = satu paket dari hub Bandung, Januari 2025 – Juni 2026.
 
 | Kolom | Arti |
 |---|---|
@@ -35,7 +35,7 @@ lengkap dengan probabilitasnya.
 
 - **Metrik utama: PR-AUC.** Sekitar 18% paket terlambat.
 - **Split berdasarkan waktu.** Contoh: train sampai Desember 2025, validation Januari–Maret 2026, test
-  April–Juni 2026. Pola musiman (promo 11.11, 12.12, mudik Lebaran) harus dipelajari dari masa lalu.
+  April–Juni 2026.
 - Tentukan threshold dengan alasan bisnis. Asumsi: paket telat tanpa pemberitahuan memicu komplain senilai
   **Rp 50.000**, notifikasi "mungkin telat" yang ternyata salah merugikan **Rp 5.000** (pelanggan bingung, CS
   ditelepon).
@@ -52,5 +52,5 @@ Staf CS dan operasional hub. Input: data paket saat pickup. Output: probabilitas
 
 ## Catatan
 
-Datanya kotor. Petunjuk: cek penulisan nama kota dan layanan, dan apakah semua berat paket masuk akal dalam
-kilogram.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

@@ -2,7 +2,7 @@
 
 **Klien:** pemilik UMKM toko roti dan kopi di Bandung, punya aplikasi member sendiri.
 
-> *"Saya punya 3.000 member, tapi promonya saya kirim ke semua orang sama rata. Boros. Saya mau tahu
+> *"Saya punya 10.000 member, tapi promonya saya kirim ke semua orang sama rata. Boros. Saya mau tahu
 > pelanggan saya itu ada tipe apa aja, biar promonya pas: yang setia dikasih apa, yang mulai jarang datang
 > dikasih apa."*
 
@@ -22,7 +22,7 @@ ini kalau tim kalian siap belajar mandiri.
 
 ## Data
 
-`data/pelanggan_umkm.csv`: satu baris = satu member, data 6 bulan terakhir (sampai Juni 2026).
+`data/raw.csv`: satu baris = satu member, data 6 bulan terakhir (sampai Juni 2026).
 
 | Kolom | Arti |
 |---|---|
@@ -39,22 +39,17 @@ ini kalau tim kalian siap belajar mandiri.
 | `persen_pakai_promo` | persen transaksi yang pakai promo |
 | `rating_rata` | rata-rata rating yang diberikan |
 
-Fitur yang paling sering dipakai di segmentasi retail disebut **RFM**: *recency* (kapan terakhir belanja),
-*frequency* (seberapa sering), dan *monetary* (berapa banyak uangnya).
-
 ## Cara menilai
 
 Tidak ada jawaban benar tunggal, jadi yang dinilai:
-- **Alasan memilih jumlah segmen**: pakai *elbow method* dan/atau *silhouette score*, lalu cek apakah
-  hasilnya masuk akal dibaca manusia. Silhouette tertinggi belum tentu segmen terbaik buat bisnis.
+- **Alasan memilih jumlah segmen**, dengan ukuran yang bisa dipertanggungjawabkan dan masuk akal dibaca manusia.
 - **Profil tiap segmen** dengan angka (rata-rata, median) dan visualisasi.
 - **Rekomendasi** yang nyambung dengan profilnya.
-- Fitur yang skalanya beda jauh (rupiah vs persen) harus diskalakan dulu. Jelaskan caranya.
+- Langkah preprocessing dan alasannya.
 
 ## Baseline wajib
 
-**K-Means** dengan fitur RFM yang sudah diskalakan. Laporkan silhouette score untuk beberapa nilai k, lalu
-coba perbaiki (fitur lain, transformasi log, algoritma lain).
+**K-Means.** Laporkan silhouette score untuk beberapa nilai k, lalu coba perbaiki.
 
 ## App untuk siapa
 
@@ -62,5 +57,5 @@ Pemilik UMKM. Input: data satu pelanggan. Output: segmen pelanggan itu dan promo
 
 ## Catatan
 
-Datanya kotor. Petunjuk: cek tipe data `total_belanja_rp` setelah dibaca pandas, dan apakah satu
-`id_pelanggan` bisa muncul lebih dari sekali.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

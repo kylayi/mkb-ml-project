@@ -15,7 +15,7 @@ Ini **klasifikasi multikelas** (4 kelas), bukan ya/tidak.
 
 ## Data
 
-`data/bearing.csv`: satu baris = satu rekaman getaran 1 detik yang sudah diringkas jadi angka.
+`data/raw.csv`: satu baris = satu rekaman getaran 1 detik yang sudah diringkas jadi angka.
 
 | Kolom | Arti |
 |---|---|
@@ -34,13 +34,9 @@ Ini **klasifikasi multikelas** (4 kelas), bukan ya/tidak.
 | `frekuensi_dominan_hz` | frekuensi dengan getaran terbesar |
 | `kondisi` | **target** |
 
-Pengetahuan yang bisa dipakai: frekuensi khas kerusakan sebanding dengan kecepatan putar. Membagi
-`frekuensi_dominan_hz` dengan frekuensi putar (rpm / 60) bisa jadi fitur yang kuat.
-
 ## Cara menilai
 
-- **Metrik utama: macro F1.** Kelasnya tidak seimbang (normal paling banyak), dan macro F1 memberi bobot sama
-  ke tiap kelas, jadi kelas kecil (`bola`) ikut dinilai.
+- **Metrik utama: macro F1.**
 - Tampilkan **confusion matrix**: kerusakan apa yang paling sering tertukar?
 - Split stratified: train / validation / test.
 
@@ -55,5 +51,5 @@ dan part yang perlu disiapkan.
 
 ## Catatan
 
-Datanya kotor. Petunjuk: label `kondisi` ditulis oleh beberapa teknisi berbeda. Hitung dulu ada berapa label
-unik sebelum melatih model.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

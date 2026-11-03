@@ -12,7 +12,7 @@ Model yang memprediksi **sisa umur motor dalam hari** (*remaining useful life*, 
 
 ## Data
 
-`data/motor_induksi.csv`: 120 motor dipantau tiap hari sejak dipasang sampai rusak (*run-to-failure*).
+`data/raw.csv`: 300 motor dipantau tiap hari sejak dipasang sampai rusak (*run-to-failure*).
 Satu baris = satu motor pada satu hari.
 
 | Kolom | Arti |
@@ -31,9 +31,8 @@ Satu baris = satu motor pada satu hari.
 
 ## Aturan penting: split per motor
 
-Baris-baris dari satu motor sangat mirip satu sama lain. Kalau di-split acak per baris, motor yang sama ada
-di train dan test, dan model kelihatan jauh lebih bagus dari aslinya. **Split berdasarkan `motor_id`**
-(motor yang ada di test tidak boleh muncul di train), misalnya pakai `GroupShuffleSplit`.
+**Split berdasarkan `motor_id`**: motor yang ada di test tidak boleh muncul di train. Jelaskan di laporan
+kenapa aturan ini perlu.
 
 ## Cara menilai
 
@@ -52,9 +51,5 @@ Planner maintenance. Input: tipe motor dan pembacaan sensor hari ini. Output: pe
 
 ## Catatan
 
-Datanya kotor. Petunjuk: cek apakah `motor_id` ditulis seragam (penting, karena dipakai buat split), dan
-apakah satuan suhu sama di semua plant.
-
-Ide fitur: tren beberapa hari terakhir (rata-rata bergerak, kenaikan getaran) sering lebih berguna daripada
-angka satu hari saja. Di banyak paper RUL, target juga "dipotong" di nilai tertentu karena motor yang masih
-baru memang belum kelihatan tanda-tanda rusaknya.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

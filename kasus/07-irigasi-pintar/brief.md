@@ -1,6 +1,6 @@
 # Kasus 07 · Irigasi pintar IoT
 
-**Klien:** pengelola greenhouse sayur di Lembang dengan delapan petak dan sensor IoT di tiap petak.
+**Klien:** pengelola greenhouse sayur di Lembang dengan enam belas petak dan sensor IoT di tiap petak.
 
 > *"Agronom kami yang memutuskan kapan petak harus disiram, dan dia nggak bisa standby 24 jam. Saya mau sistem
 > yang bisa ngasih notifikasi: petak ini perlu disiram sekarang. Tapi jangan nyiram kalau sebentar lagi mau
@@ -12,12 +12,12 @@ Model yang tiap jam menjawab untuk tiap petak: **perlu disiram sekarang atau tid
 
 ## Data
 
-`data/irigasi.csv`: satu baris = satu petak pada satu jam, Agustus–Oktober 2025.
+`data/raw.csv`: satu baris = satu petak pada satu jam, Agustus–Oktober 2025.
 
 | Kolom | Arti |
 |---|---|
 | `waktu` | awal jam |
-| `petak` | P01 sampai P08 |
+| `petak` | P01 sampai P16 |
 | `tanaman` | cabai, tomat, selada |
 | `jenis_tanah` | pasir, lempung, liat |
 | `umur_tanaman_hari` | umur tanaman sejak tanam (hari) |
@@ -29,12 +29,9 @@ Model yang tiap jam menjawab untuk tiap petak: **perlu disiram sekarang atau tid
 | `prakiraan_hujan_6jam_mm` | prakiraan total hujan 6 jam ke depan (mm) |
 | `perlu_siram` | **target**: keputusan agronom, 1 = perlu disiram |
 
-Pengetahuan yang bisa dipakai: tiap tanaman punya batas kelembaban tanah aman yang beda (selada paling haus,
-cabai paling tahan kering). Tanah pasir cepat kering, tanah liat lambat. Agronom juga cuma menyiram siang hari.
-
 ## Cara menilai
 
-- **Metrik utama: F1** untuk kelas `perlu_siram = 1`. Kelas positifnya cuma sekitar 4–5%.
+- **Metrik utama: F1** untuk kelas `perlu_siram = 1`.
 - **Split berdasarkan waktu.** Contoh: train Agustus–September, validation 1–14 Oktober, test 15–31 Oktober.
 - Bahas trade-off-nya: telat nyiram bikin tanaman stres, nyiram percuma buang air dan bikin akar busuk.
 
@@ -50,5 +47,5 @@ disiram atau tidak, dan alasannya.
 
 ## Catatan
 
-Datanya kotor. Petunjuk: sensor murah bisa macet (nilainya nggak berubah berjam-jam) atau ngasih angka yang
-mustahil. Cek juga penulisan nama tanaman.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
+membereskannya adalah bagian dari tugas kalian.

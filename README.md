@@ -8,26 +8,27 @@ ini bareng tim.
 link, laporan, dan video demo.
 
 Daftar isi: [kasus](#8-kasus) · [langkah kerja](#langkah-kerja) · [yang dikumpulkan](#yang-dikumpulkan-dan-penilaian) ·
-[video](#video-demo-5-menit) · [timeline](#timeline) · [aturan](#aturan-main) · [pembagian kasus](#pembagian-kasus)
+[video](#video-demo-5-menit) · [timeline](#timeline) · [aturan](#aturan-main)
 
 ---
 
 ## 8 kasus
 
-Semua datanya **sintetis** (data perusahaan asli hampir selalu rahasia) dan **sengaja kotor**, sama kayak data
-mesin CNC di P2. Tiap kasus punya `brief.md`, perannya seperti permintaan plant manager di P2: siapa kliennya,
-apa yang diminta, metriknya apa, dan baseline yang wajib dikalahkan.
+Tiap kasus berisi dua hal: `brief.md` (permintaan klien, seperti plant manager di P2) dan `data/raw.csv`
+(data mentah dari sistem klien). Datanya **sintetis**, karena data perusahaan asli hampir selalu rahasia,
+dan **belum dibersihkan**. Tidak ada kode bantuan: memahami data, membersihkan, memilih fitur, dan memilih
+model sepenuhnya keputusan tim kalian.
 
 | # | Kasus | Jenis tugas | Metrik utama | Data |
 |---|---|---|---|---|
-| 01 | [Quality control injection molding](kasus/01-qc-injection-molding/brief.md) | klasifikasi | PR-AUC | 6 ribu baris |
-| 02 | [Konsumsi energi gedung](kasus/02-energi-gedung/brief.md) | regresi time series | MAE | 13 ribu jam |
-| 03 | [Remaining useful life motor induksi](kasus/03-rul-motor-induksi/brief.md) | regresi | MAE | 120 motor, 33 ribu baris |
-| 04 | [Diagnosis kerusakan bearing](kasus/04-diagnosis-bearing/brief.md) | klasifikasi multikelas | macro F1 | 4 ribu rekaman |
-| 05 | [Segmentasi pelanggan UMKM](kasus/05-segmentasi-umkm/brief.md) | clustering · **challenge** | silhouette + profil | 3 ribu pelanggan |
-| 06 | [Prakiraan PM2.5 Bandung](kasus/06-pm25-bandung/brief.md) | regresi time series | MAE | 3 stasiun × 1 tahun |
-| 07 | [Irigasi pintar IoT](kasus/07-irigasi-pintar/brief.md) | klasifikasi | F1 | 8 petak × 3 bulan |
-| 08 | [Keterlambatan paket](kasus/08-keterlambatan-paket/brief.md) | klasifikasi | PR-AUC | 12 ribu paket |
+| 01 | [Quality control injection molding](kasus/01-qc-injection-molding/brief.md) | klasifikasi | PR-AUC | 25 ribu siklus |
+| 02 | [Konsumsi energi gedung](kasus/02-energi-gedung/brief.md) | regresi time series | MAE | 2,5 tahun per jam (22 ribu baris) |
+| 03 | [Remaining useful life motor induksi](kasus/03-rul-motor-induksi/brief.md) | regresi | MAE | 300 motor (80 ribu baris) |
+| 04 | [Diagnosis kerusakan bearing](kasus/04-diagnosis-bearing/brief.md) | klasifikasi multikelas | macro F1 | 15 ribu rekaman |
+| 05 | [Segmentasi pelanggan UMKM](kasus/05-segmentasi-umkm/brief.md) | clustering · **challenge** | silhouette + profil | 10 ribu pelanggan |
+| 06 | [Prakiraan PM2.5 Bandung](kasus/06-pm25-bandung/brief.md) | regresi time series | MAE | 5 stasiun × 2 tahun (88 ribu baris) |
+| 07 | [Irigasi pintar IoT](kasus/07-irigasi-pintar/brief.md) | klasifikasi | F1 | 16 petak × 3 bulan (35 ribu baris) |
+| 08 | [Keterlambatan paket](kasus/08-keterlambatan-paket/brief.md) | klasifikasi | PR-AUC | 40 ribu paket |
 
 Kasus 05 tidak punya target (*unsupervised*) dan belum dibahas di kelas. Ambil kalau tim kalian siap belajar
 mandiri.
@@ -36,22 +37,13 @@ mandiri.
 
 ## Langkah kerja
 
-1. **Bikin repo publik tim.** Paling gampang: fork [mkb-ml-p3](https://github.com/nurhikam/mkb-ml-p3) (sudah
-   ada FastAPI, Streamlit, Dockerfile, dan tes), ganti nama repo-nya, lalu salin folder kasus kalian dari repo
-   ini. Semua anggota dijadikan collaborator.
-2. **Think.** Baca `brief.md` bareng. Tulis di README: siapa usernya, keputusan apa yang dibantu model, metrik
-   dan baseline-nya.
-3. **Act.** Kerjakan di notebook seperti P2:
-   - EDA dan bersih-bersih data, catat setiap masalah yang kalian temukan dan cara membereskannya
-   - split sesuai aturan di brief (beberapa kasus wajib split berdasarkan waktu atau per motor)
-   - baseline wajib dulu, baru model lain
-   - pilih model dan threshold pakai **validation**, test dibuka sekali di akhir
-   - simpan `model.joblib` + `metadata.json`, dan fitur di `src/features.py`
-4. **Ship.** Ganti contoh model CNC di template P3 dengan model kalian: sesuaikan input API dan form Streamlit,
-   lalu deploy ke Streamlit Community Cloud atau Hugging Face Spaces.
-5. **Laporan dan video.** Template laporan ada di [`template/LAPORAN.md`](template/LAPORAN.md).
+Ulangi **think → act → ship** seperti P1–P3. Caranya bebas, asal semua yang dikumpulkan lengkap dan aturan di
+brief dipatuhi.
 
-Checklist README repo tim ada di [`template/README_TIM.md`](template/README_TIM.md).
+- **Repo:** satu repo publik per tim, semua anggota jadi collaborator. Boleh mulai dari fork
+  [mkb-ml-p3](https://github.com/nurhikam/mkb-ml-p3) kalau mau pakai lagi struktur API dan Streamlit dari P3.
+- **README repo:** checklist ada di [`template/README_TIM.md`](template/README_TIM.md).
+- **Laporan:** kerangka ada di [`template/LAPORAN.md`](template/LAPORAN.md).
 
 ---
 
@@ -87,7 +79,7 @@ Laporan dinilai dosen pengampu. Praktisi mungkin ikut me-review repo dan app.
 
 | Kapan | Target |
 |---|---|
-| P3 | tim dan kasus dibagi |
+| P3 | tim dibentuk, kasus diacak di kelas |
 | Akhir minggu P4 | **checkpoint 1:** repo publik berisi EDA, data bersih, dan baseline |
 | Pertengahan minggu P5 | **checkpoint 2:** app sudah online (boleh masih pakai model baseline) |
 | Akhir minggu P5 | **deadline:** model final, laporan, dan video |
@@ -103,14 +95,3 @@ Tanggal pastinya dan link pengumpulan diumumkan dosen pengampu.
 - **Web only dan tabular only.** Belum ada mobile app kali ini.
 - **Test set dibuka sekali di akhir.** Jangan bohongi diri sendiri (ingat P2).
 - **Mentok?** Tanya di QnA kelas dan tempel pesan error lengkapnya.
-
----
-
-## Pembagian kasus
-
-Kasus diacak di kelas pakai [`bagi_kasus.py`](bagi_kasus.py) dengan seed yang ditampilkan, jadi siapa pun bisa
-menjalankan ulang dan dapat hasil yang sama:
-
-```bash
-python bagi_kasus.py --seed 2026 "Tim A" "Tim B" "Tim C"
-```
