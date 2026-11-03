@@ -1,55 +1,68 @@
-# Kasus 03 · Remaining useful life motor induksi
+# Kasus 03 · Sisa Umur Pakai Motor Induksi
 
-**Klien:** manajer maintenance grup pabrik dengan tiga plant (Cikarang, Karawang, Purwakarta).
+**Klien:** manajer pemeliharaan sebuah grup pabrik dengan tiga lokasi (Cikarang, Karawang, dan Purwakarta).
 
-> *"Kami punya ratusan motor pompa dan konveyor. Ganti motor itu butuh pesan dulu, bisa 2–4 minggu. Saya mau
-> tahu: motor ini kira-kira masih bisa jalan berapa hari lagi? Biar motor penggantinya dipesan sebelum yang
-> lama mati."*
+> "Kami memiliki ratusan motor pompa dan konveyor. Mengganti motor harus memesan terlebih dahulu, dan
+> pengirimannya bisa memakan waktu 2–4 minggu. Saya ingin tahu berapa hari lagi motor ini masih bisa bekerja,
+> agar motor pengganti sudah dipesan sebelum motor lama rusak."
 
 ## Yang diminta
 
-Model yang memprediksi **sisa umur motor dalam hari** (*remaining useful life*, RUL) dari data sensor hari ini.
+Model yang memprediksi **sisa umur pakai motor dalam hari** (*remaining useful life*, RUL) dari data sensor hari
+ini.
 
 ## Data
 
-`data/raw.csv`: 300 motor dipantau tiap hari sejak dipasang sampai rusak (*run-to-failure*).
-Satu baris = satu motor pada satu hari.
+`data/raw.csv`: 300 motor dipantau setiap hari sejak dipasang sampai rusak (*run-to-failure*). Satu baris adalah
+satu motor pada satu hari.
 
 | Kolom | Arti |
 |---|---|
-| `motor_id` | ID motor |
-| `tipe_motor` | daya nominal: 5.5kW, 11kW, 22kW |
-| `lokasi` | plant tempat motor dipasang |
-| `hari_operasi` | sudah berapa hari motor jalan |
-| `beban_pct` | beban kerja hari itu (% dari nominal) |
-| `arus_A` | arus rata-rata (A) |
-| `tegangan_V` | tegangan suplai (V) |
-| `suhu_belitan_C` | suhu belitan stator (°C) |
-| `getaran_rms_mm_s` | getaran RMS (mm/s) |
-| `kecepatan_rpm` | kecepatan putar |
+| `motor_id` | nomor identitas motor |
+| `tipe_motor` | daya nominal: 5.5kW, 11kW, atau 22kW |
+| `lokasi` | lokasi pabrik tempat motor dipasang |
+| `hari_operasi` | jumlah hari motor sudah bekerja |
+| `beban_pct` | beban kerja hari itu (% dari daya nominal) |
+| `arus_A` | arus listrik rata-rata (ampere) |
+| `tegangan_V` | tegangan listrik (volt) |
+| `suhu_belitan_C` | suhu kumparan kawat di dalam motor (°C) |
+| `getaran_rms_mm_s` | besar getaran (mm/detik) |
+| `kecepatan_rpm` | kecepatan putar (putaran per menit) |
 | `rul_hari` | **target**: sisa hari sampai motor rusak |
 
-## Aturan penting: split per motor
+## Aturan penting: pembagian per motor
 
-**Split berdasarkan `motor_id`**: motor yang ada di test tidak boleh muncul di train. Jelaskan di laporan
-kenapa aturan ini perlu.
+**Data dibagi berdasarkan `motor_id`:** motor yang ada di data *test* tidak boleh muncul di data *train*.
+Jelaskan di laporan mengapa aturan ini diperlukan.
 
 ## Cara menilai
 
-- **Metrik utama: MAE (hari) pada baris dengan `rul_hari` ≤ 60.** Yang paling penting buat klien adalah
-  motor yang sudah dekat rusak, karena itu yang menentukan kapan pesan motor baru.
-- Laporkan juga MAE di semua baris.
+- **Metrik utama: MAE (hari) pada baris dengan `rul_hari` ≤ 60.** Bagi klien, yang paling penting adalah motor
+  yang sudah mendekati rusak karena motor itulah yang menentukan kapan motor baru harus dipesan.
+- Laporkan juga MAE pada semua baris.
 
-## Baseline wajib
+## *Baseline* wajib
 
-**Linear regression** dengan fitur sensor asli. Laporkan MAE-nya (dua-duanya), lalu kalahkan.
+**Regresi linear** dengan fitur sensor asli. Laporkan kedua MAE-nya, lalu lampaui.
 
-## App untuk siapa
+## Aplikasi untuk siapa
 
-Planner maintenance. Input: tipe motor dan pembacaan sensor hari ini. Output: perkiraan sisa umur dan status
-(aman / pesan pengganti sekarang / segera ganti).
+Perencana pemeliharaan. Masukan: tipe motor dan pembacaan sensor. Keluaran: perkiraan sisa umur dan status
+(aman, pesan pengganti sekarang, atau segera ganti).
+
+## Istilah
+
+| Istilah | Arti |
+|---|---|
+| Motor induksi | Jenis motor listrik yang paling banyak dipakai di industri, misalnya untuk pompa, kipas, dan konveyor. |
+| RUL | *Remaining useful life*: perkiraan sisa waktu sampai suatu mesin tidak bisa dipakai lagi. |
+| *Run-to-failure* | Data yang mencatat mesin sejak baru sampai rusak, sehingga sisa umurnya pada setiap hari diketahui. |
+| Belitan | Kumparan kawat tembaga di dalam motor. Suhu belitan yang tinggi mempercepat kerusakan isolasi. |
+| RMS | *Root mean square*: cara menghitung "rata-rata kekuatan" sinyal getaran. |
+| Regresi linear | Model regresi paling sederhana: target ditebak dari jumlah fitur yang masing-masing dikalikan bobot. |
+| MAE | Lihat tabel istilah di README utama. |
 
 ## Catatan
 
-Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
-membereskannya adalah bagian dari tugas kalian.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa oleh siapa pun. Memeriksa, memahami, dan
+membersihkannya merupakan bagian dari tugas kalian.

@@ -1,56 +1,66 @@
-# Kasus 08 · Prediksi keterlambatan paket
+# Kasus 08 · Prediksi Keterlambatan Paket
 
-**Klien:** kepala operasional hub ekspedisi di Bandung (perusahaan fiktif).
+**Klien:** kepala operasional sebuah *hub* ekspedisi di Bandung (perusahaan fiktif).
 
-> *"Komplain terbesar kami itu paket telat, dan pelanggan paling kesal kalau nggak dikabari. Kalau dari data
-> waktu pickup kami sudah bisa tahu paket mana yang kemungkinan telat, kami bisa kabari pelanggan duluan atau
-> prioritaskan paketnya."*
+> "Keluhan terbesar kami adalah paket terlambat, dan pelanggan paling kesal jika tidak diberi kabar. Jika dari
+> data saat penjemputan kami sudah bisa tahu paket mana yang kemungkinan terlambat, kami dapat mengabari
+> pelanggan lebih awal atau memprioritaskan paket tersebut."
 
 ## Yang diminta
 
-Model yang menerima data satu paket saat di-pickup dan menjawab: **paket ini bakal terlambat atau tidak**,
-lengkap dengan probabilitasnya.
+Model yang menerima data satu paket saat dijemput dan menentukan apakah **paket tersebut akan terlambat**,
+beserta probabilitasnya.
 
 ## Data
 
-`data/raw.csv`: satu baris = satu paket dari hub Bandung, Januari 2025 – Juni 2026.
+`data/raw.csv`: satu baris adalah satu paket dari *hub* Bandung, Januari 2025–Juni 2026.
 
 | Kolom | Arti |
 |---|---|
 | `id_resi` | nomor resi |
-| `tanggal_pickup` | tanggal paket diambil |
-| `jam_pickup` | jam paket diambil (7–22) |
+| `tanggal_pickup` | tanggal paket dijemput |
+| `jam_pickup` | jam paket dijemput (7–22) |
 | `kota_tujuan` | kota tujuan |
 | `jarak_km` | jarak dari Bandung (km) |
-| `jumlah_transit` | jumlah hub transit yang dilewati |
-| `layanan` | EXPRESS, REG, HEMAT |
-| `janji_hari` | janji waktu sampai (SLA) dalam hari |
+| `jumlah_transit` | jumlah *hub* transit yang dilalui |
+| `layanan` | EXPRESS, REG, atau HEMAT |
+| `janji_hari` | janji waktu tiba (SLA) dalam hari |
 | `berat_kg` | berat paket (kg) |
 | `metode_bayar` | COD atau non_COD |
-| `cuaca_saat_pickup` | cerah, berawan, hujan, hujan_lebat |
-| `volume_hub_hari` | jumlah paket yang masuk hub hari itu |
-| `terlambat` | **target**: 1 = sampai melewati janji |
+| `cuaca_saat_pickup` | cerah, berawan, hujan, atau hujan_lebat |
+| `volume_hub_hari` | jumlah paket yang masuk ke *hub* pada hari itu |
+| `terlambat` | **target**: 1 = tiba melewati janji |
 
 ## Cara menilai
 
 - **Metrik utama: PR-AUC.** Sekitar 18% paket terlambat.
-- **Split berdasarkan waktu.** Contoh: train sampai Desember 2025, validation Januari–Maret 2026, test
-  April–Juni 2026.
-- Tentukan threshold dengan alasan bisnis. Asumsi: paket telat tanpa pemberitahuan memicu komplain senilai
-  **Rp 50.000**, notifikasi "mungkin telat" yang ternyata salah merugikan **Rp 5.000** (pelanggan bingung, CS
-  ditelepon).
+- **Data dibagi berdasarkan waktu.** Contoh: *train* sampai Desember 2025, *validation* Januari–Maret 2026,
+  *test* April–Juni 2026.
+- Tentukan *threshold* berdasarkan alasan bisnis. Asumsinya: paket terlambat tanpa pemberitahuan memicu keluhan
+  senilai **Rp50.000**, sedangkan pemberitahuan "kemungkinan terlambat" yang ternyata keliru merugikan
+  **Rp5.000** (pelanggan bingung dan menghubungi layanan pelanggan).
 
-## Baseline wajib
+## *Baseline* wajib
 
-**Logistic regression** dengan fitur asli. Laporkan PR-AUC-nya, lalu coba kalahkan. Kalau ternyata model yang
-lebih rumit tidak lebih baik, itu juga temuan yang sah. Jelaskan kenapa menurut kalian.
+**Regresi logistik** dengan fitur asli. Laporkan PR-AUC-nya, lalu coba lampaui. Jika model yang lebih rumit
+ternyata tidak lebih baik, hal itu juga merupakan temuan yang sah; jelaskan alasannya menurut kalian.
 
-## App untuk siapa
+## Aplikasi untuk siapa
 
-Staf CS dan operasional hub. Input: data paket saat pickup. Output: probabilitas terlambat dan rekomendasi
-(kabari pelanggan / prioritaskan / aman).
+Staf layanan pelanggan dan operasional *hub*. Masukan: data paket saat dijemput. Keluaran: probabilitas
+terlambat dan rekomendasi (kabari pelanggan, prioritaskan, atau aman).
+
+## Istilah
+
+| Istilah | Arti |
+|---|---|
+| *Hub* | Gudang pusat tempat paket dikumpulkan, disortir, lalu dikirim ke kota berikutnya. |
+| Transit | Persinggahan paket di *hub* lain sebelum tiba di kota tujuan. |
+| SLA | *Service level agreement*: janji waktu layanan, di sini janji jumlah hari sampai paket tiba. |
+| COD | *Cash on delivery*: pembayaran dilakukan saat paket diterima. |
+| Regresi logistik, PR-AUC, *threshold* | Lihat tabel istilah di README utama dan brief kasus 01. |
 
 ## Catatan
 
-Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
-membereskannya adalah bagian dari tugas kalian.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa oleh siapa pun. Memeriksa, memahami, dan
+membersihkannya merupakan bagian dari tugas kalian.

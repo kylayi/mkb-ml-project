@@ -1,55 +1,69 @@
-# Kasus 04 · Diagnosis kerusakan bearing
+# Kasus 04 · Diagnosis Kerusakan *Bearing*
 
-**Klien:** vibration analyst di pabrik semen.
+**Klien:** analis getaran di sebuah pabrik semen.
 
-> *"Kami rutin ngerekam getaran bearing motor dan pompa. Masalahnya, yang bisa baca spektrum getaran cuma saya
-> sendiri, dan rekamannya ribuan. Saya mau sistem yang otomatis bilang: bearing ini normal, atau rusak di
-> bagian mana. Biar teknisi tahu harus siapin part apa."*
+> "Kami rutin merekam getaran *bearing* pada motor dan pompa. Masalahnya, hanya saya yang bisa membaca
+> spektrum getaran, sedangkan rekamannya ribuan. Saya ingin sistem yang otomatis mengatakan *bearing* ini normal
+> atau rusak di bagian mana, agar teknisi tahu suku cadang apa yang perlu disiapkan."
 
 ## Yang diminta
 
-Model yang menerima ringkasan satu rekaman getaran dan menjawab **kondisi bearing**: `normal`, `outer_race`
-(cincin luar rusak), `inner_race` (cincin dalam rusak), atau `bola` (bola bearing rusak).
+Model yang menerima ringkasan satu rekaman getaran dan menentukan **kondisi *bearing***: `normal`, `outer_race`
+(cincin luar rusak), `inner_race` (cincin dalam rusak), atau `bola` (bola *bearing* rusak).
 
-Ini **klasifikasi multikelas** (4 kelas), bukan ya/tidak.
+Ini adalah **klasifikasi multikelas** (empat kelas), bukan sekadar ya/tidak.
 
 ## Data
 
-`data/raw.csv`: satu baris = satu rekaman getaran 1 detik yang sudah diringkas jadi angka.
+`data/raw.csv`: satu baris adalah satu rekaman getaran berdurasi satu detik yang sudah diringkas menjadi
+angka.
 
 | Kolom | Arti |
 |---|---|
-| `id_rekaman` | ID rekaman |
-| `posisi_sensor` | `drive_end` (dekat beban) atau `fan_end` (jauh, sinyal lebih lemah) |
-| `kecepatan_rpm` | kecepatan putar saat direkam |
-| `beban_kN` | beban pada bearing (kN) |
-| `suhu_housing_C` | suhu rumah bearing (°C) |
+| `id_rekaman` | nomor identitas rekaman |
+| `posisi_sensor` | `drive_end` (sisi beban) atau `fan_end` (sisi kipas, lebih jauh dari beban) |
+| `kecepatan_rpm` | kecepatan putar saat direkam (putaran per menit) |
+| `beban_kN` | beban pada *bearing* (kilonewton) |
+| `suhu_housing_C` | suhu rumah *bearing* (°C) |
 | `rms_g` | besar getaran rata-rata (g) |
 | `puncak_g` | getaran tertinggi (g) |
-| `kurtosis` | seberapa "runcing" sinyalnya; tumbukan dari kerusakan bikin kurtosis naik |
-| `crest_factor` | puncak dibagi RMS |
-| `energi_bpfo` | energi getaran di frekuensi khas kerusakan cincin luar |
-| `energi_bpfi` | energi getaran di frekuensi khas kerusakan cincin dalam |
-| `energi_bsf` | energi getaran di frekuensi khas kerusakan bola |
-| `frekuensi_dominan_hz` | frekuensi dengan getaran terbesar |
+| `kurtosis` | ukuran seberapa "runcing" sinyal getaran |
+| `crest_factor` | nilai puncak dibagi RMS |
+| `energi_bpfo` | energi getaran pada frekuensi khas kerusakan cincin luar |
+| `energi_bpfi` | energi getaran pada frekuensi khas kerusakan cincin dalam |
+| `energi_bsf` | energi getaran pada frekuensi khas kerusakan bola |
+| `frekuensi_dominan_hz` | frekuensi dengan getaran terbesar (hertz) |
 | `kondisi` | **target** |
 
 ## Cara menilai
 
-- **Metrik utama: macro F1.**
-- Tampilkan **confusion matrix**: kerusakan apa yang paling sering tertukar?
-- Split stratified: train / validation / test.
+- **Metrik utama: *macro* F1.**
+- Tampilkan ***confusion matrix***: jenis kerusakan apa yang paling sering tertukar?
+- Data dibagi secara *stratified* menjadi *train*, *validation*, dan *test*.
 
-## Baseline wajib
+## *Baseline* wajib
 
-**Logistic regression** (multikelas) dengan fitur asli. Laporkan macro F1-nya, lalu kalahkan.
+**Regresi logistik** (multikelas) dengan fitur asli. Laporkan *macro* F1-nya, lalu lampaui.
 
-## App untuk siapa
+## Aplikasi untuk siapa
 
-Teknisi maintenance. Input: hasil ringkasan rekaman getaran. Output: kondisi bearing, probabilitas tiap kelas,
-dan part yang perlu disiapkan.
+Teknisi pemeliharaan. Masukan: ringkasan rekaman getaran. Keluaran: kondisi *bearing*, probabilitas setiap
+kelas, dan suku cadang yang perlu disiapkan.
+
+## Istilah
+
+| Istilah | Arti |
+|---|---|
+| *Bearing* (bantalan) | Komponen yang menopang poros berputar. Terdiri atas cincin luar, cincin dalam, dan bola-bola di antaranya. |
+| *Outer race*, *inner race* | Cincin luar dan cincin dalam *bearing*, tempat bola menggelinding. |
+| g | Satuan percepatan getaran; 1 g sama dengan percepatan gravitasi bumi. |
+| Kurtosis | Ukuran statistik yang tinggi jika sinyal sering mengandung lonjakan tajam, misalnya akibat bola menghantam bagian yang retak. |
+| *Crest factor* | Perbandingan nilai puncak dengan nilai RMS. Naik ketika ada hentakan sesaat. |
+| BPFO, BPFI, BSF | Frekuensi khas yang muncul jika cincin luar, cincin dalam, atau bola rusak. Nilainya bergantung pada ukuran *bearing* dan kecepatan putar. |
+| *Macro* F1 | Rata-rata skor F1 dari setiap kelas dengan bobot yang sama, sehingga kelas yang datanya sedikit tetap ikut dinilai. |
+| *Confusion matrix* | Tabel yang membandingkan kelas sebenarnya dengan kelas hasil tebakan model. |
 
 ## Catatan
 
-Data diekspor apa adanya dari sistem klien dan belum diperiksa siapa pun. Memeriksa, memahami, dan
-membereskannya adalah bagian dari tugas kalian.
+Data diekspor apa adanya dari sistem klien dan belum diperiksa oleh siapa pun. Memeriksa, memahami, dan
+membersihkannya merupakan bagian dari tugas kalian.
