@@ -1,120 +1,111 @@
-# Machine Learning · MKB UPI · Proyek Kelompok (P4–P5)
+# Segmentasi Pelanggan UMKM Roti & Kopi · Tim [nama tim]
 
-Sekarang giliran kalian. Ulangi siklus **think → act → ship** dari P1–P3, kali ini dengan kasus baru dan tanpa
-dipandu langkah demi langkah. Pertemuan P4 dan P5 tidak diadakan secara tatap muka; dua minggu tersebut
-digunakan untuk mengerjakan proyek ini bersama tim.
+**Kasus:** 05 · Segmentasi pelanggan UMKM · **Aplikasi:** [tautan Streamlit] · **Video:** [tautan video]
 
-**Ringkasan:** setiap tim yang terdiri atas 3–4 orang mendapat satu kasus secara acak, lalu menyerahkan
-repositori, aplikasi yang dapat dibuka melalui tautan, laporan, dan video demo.
-
-Daftar isi: [kasus](#delapan-kasus) · [cara kerja](#cara-kerja) · [yang dikumpulkan](#yang-dikumpulkan-dan-penilaian) ·
-[video](#video-demo-5-menit) · [jadwal](#jadwal) · [aturan](#aturan) · [istilah](#istilah-yang-sering-muncul)
-
----
-
-## Delapan kasus
-
-Setiap kasus berisi dua berkas: `brief.md` (permintaan klien, seperti permintaan *plant manager* di P2) dan
-`data/raw.csv` (data mentah dari sistem klien). Datanya **sintetis** karena data perusahaan asli hampir selalu
-bersifat rahasia, dan **belum dibersihkan**. Tidak ada kode bantuan: memahami data, membersihkannya, memilih
-fitur, dan memilih model sepenuhnya menjadi keputusan tim kalian.
-
-| No. | Kasus | Jenis tugas | Metrik utama | Ukuran data |
-|---|---|---|---|---|
-| 01 | [Pengendalian mutu *injection molding*](kasus/01-qc-injection-molding/brief.md) | klasifikasi | PR-AUC | 25 ribu siklus cetak |
-| 02 | [Konsumsi energi gedung](kasus/02-energi-gedung/brief.md) | regresi deret waktu | MAE | 2,5 tahun per jam (22 ribu baris) |
-| 03 | [Sisa umur pakai motor induksi](kasus/03-rul-motor-induksi/brief.md) | regresi | MAE | 300 motor (80 ribu baris) |
-| 04 | [Diagnosis kerusakan *bearing*](kasus/04-diagnosis-bearing/brief.md) | klasifikasi multikelas | *macro* F1 | 15 ribu rekaman |
-| 05 | [Segmentasi pelanggan UMKM](kasus/05-segmentasi-umkm/brief.md) | pengelompokan · **tantangan** | *silhouette* + profil | 10 ribu pelanggan |
-| 06 | [Prakiraan PM2.5 Bandung](kasus/06-pm25-bandung/brief.md) | regresi deret waktu | MAE | 5 stasiun × 2 tahun (88 ribu baris) |
-| 07 | [Irigasi pintar berbasis IoT](kasus/07-irigasi-pintar/brief.md) | klasifikasi | F1 | 16 petak × 3 bulan (35 ribu baris) |
-| 08 | [Keterlambatan paket](kasus/08-keterlambatan-paket/brief.md) | klasifikasi | PR-AUC | 40 ribu paket |
-
-Kasus 05 tidak memiliki target (*unsupervised learning*) dan belum dibahas di kelas. Pilih kasus ini hanya jika
-tim kalian siap belajar secara mandiri.
-
----
-
-## Cara kerja
-
-Ulangi **think → act → ship** seperti di P1–P3. Caranya bebas, asalkan semua yang dikumpulkan lengkap dan
-aturan di *brief* dipatuhi.
-
-- **Repositori:** satu repositori publik untuk setiap tim, dan semua anggota dijadikan *collaborator*. Kalian
-  boleh memulai dari *fork* [mkb-ml-p3](https://github.com/nurhikam/mkb-ml-p3) jika ingin memakai kembali
-  struktur API dan Streamlit dari P3.
-- **README repositori:** daftar periksanya ada di [`template/README_TIM.md`](template/README_TIM.md).
-- **Laporan:** kerangkanya ada di [`template/LAPORAN.md`](template/LAPORAN.md).
-
----
-
-## Yang dikumpulkan dan penilaian
-
-**Model pembanding (*baseline*) wajib ada; algoritmanya bebas.**
-
-| Bobot | Bagian | Isi |
+| Anggota | NIM | Bagian yang dikerjakan |
 |---|---|---|
-| **40%** | Repositori | *notebook* yang rapi dan dapat dijalankan ulang, `src/features.py`, model + metadata, README |
-| **40%** | Aplikasi / API | tautan yang dapat dibuka, menerima masukan, dan menampilkan prediksi |
-| **20%** | Laporan + video | laporan paling banyak 6 halaman, video paling lama 5 menit |
+| [nama] | [NIM] | [misalnya EDA dan pembersihan data] |
+| [nama] | [NIM] | [misalnya model dan evaluasi] |
+| [nama] | [NIM] | [misalnya API dan aplikasi] |
 
-Laporan dinilai oleh dosen pengampu. Praktisi dapat ikut meninjau repositori dan aplikasi.
+## Masalah dan pengguna
 
----
+Pemilik UMKM roti dan kopi di Bandung punya ±10.000 anggota aplikasi member, tetapi selama ini mengirim promo
+yang sama ke semua orang. Model ini mengelompokkan anggota menjadi 4 tipe pelanggan berdasarkan perilaku
+belanjanya, lalu menyarankan satu promo yang cocok untuk tiap tipe. Aplikasinya menerima data satu pelanggan
+(atau file CSV) dan menampilkan segmen serta promo yang disarankan.
 
-## Video demo (5 menit)
+## Data dan pembersihan
 
-| Durasi | Isi |
-|---|---|
-| 30 detik | masalah yang diselesaikan dan siapa penggunanya |
-| 90 detik | arsitektur dari awal sampai akhir: data → model → API → aplikasi |
-| 90 detik | demo langsung, termasuk satu masukan yang tidak wajar (kosong, mustahil, atau di luar rentang) |
-| 60 detik | hasil, perbandingan dengan *baseline*, dan keterbatasan model |
-| 30 detik | cadangan, agar video tetap di bawah 5 menit |
+Sumber: [`kasus/05-segmentasi-umkm/data/raw.csv`](kasus/05-segmentasi-umkm/data/raw.csv), 10.150 baris, 12 kolom.
 
-**Setiap anggota menjelaskan bagian yang dikerjakannya sendiri.**
+| Masalah yang ditemukan | Jumlah baris | Cara menangani |
+|---|---|---|
+| ID pelanggan ganda (90 duplikat persis + 60 hanya beda recency 1 hari) | 150 | simpan 1 baris per ID, ambil recency terkecil (ekspor terbaru) |
+| `total_belanja_rp` berformat teks `Rp 1.044.300` | 507 | hapus `Rp` dan titik ribuan, ubah ke angka |
+| Penulisan kecamatan tidak baku (`SUKAJADI`, `coblong`, `Buah Batu`, `Bdg Wetan`, spasi di belakang) | 254 | dipetakan ke 10 nama baku |
+| Umur mustahil (0, 1, 99, 120) | 100 | dikosongkan lalu diisi median; umur hanya untuk profil |
+| Umur kosong | 208 | diisi median |
+| Rating kosong | 800 | ditandai `pernah_rating`; rating hanya untuk profil |
+| Transaksi terakhir sebelum tanggal daftar | 283 | ditandai, tidak dihapus (`tanggal_daftar` tidak dipakai model) |
+| Recency > 180 hari padahal data 6 bulan | 64 | dipotong ke 180 saat membuat fitur |
 
----
+Hasil akhir: 10.000 pelanggan unik.
 
-## Jadwal
+## Fitur dan model
 
-| Waktu | Target |
-|---|---|
-| P3 | tim dibentuk, kasus diundi di kelas |
-| Akhir minggu P4 | **titik periksa 1:** repositori publik berisi EDA, data bersih, dan *baseline* |
-| Pertengahan minggu P5 | **titik periksa 2:** aplikasi sudah daring (boleh masih memakai model *baseline*) |
-| Akhir minggu P5 | **tenggat:** model final, laporan, dan video |
+Fitur clustering hanya memakai perilaku belanja (lihat [`src/features.py`](src/features.py)):
+`log(recency)`, `log(jumlah transaksi)`, `log(belanja per transaksi)`, dan `persen pakai promo`, lalu
+StandardScaler. Variabel kategorikal (channel, kategori favorit, kecamatan, metode bayar), umur, dan rating
+dipakai untuk membaca profil segmen, bukan untuk clustering.
 
-Tanggal pasti dan tautan pengumpulan akan diumumkan oleh dosen pengampu.
+## Hasil
 
----
+| Model | Silhouette | Davies-Bouldin |
+|---|---|---|
+| *Baseline*: K-Means pada RFM mentah (k terbaik = 4) | 0,554 | 0,64 |
+| **Final: K-Means k = 4 pada fitur log + basket + promo** | **0,613** | **0,55** |
+| Pembanding: Gaussian Mixture, k = 4 | 0,611 | 0,55 |
+| Pembanding: Agglomerative Ward, k = 4 (sampel 4.000) | 0,612 | 0,54 |
 
-## Aturan
+Alasan memilih **k = 4**: silhouette tertinggi dan Davies-Bouldin terendah, elbow menekuk di k = 4, hasil stabil
+(ARI = 1,00 antar-seed dan antar-subsampel 80%), dan k = 5 hanya memecah pelanggan setia menjadi dua kelompok
+yang tidak membutuhkan promo berbeda. 88% pelanggan memiliki silhouette > 0,5.
 
-- **Asisten AI boleh digunakan** (ChatGPT, Gemini, Claude, Copilot), asalkan kalian memahami setiap baris yang
-  dikumpulkan. Bersiaplah ditanya, "Baris ini berfungsi untuk apa?"
-- **Hanya aplikasi web dan data tabel.** Aplikasi seluler belum termasuk kali ini.
-- **Data uji (*test set*) dibuka satu kali, di akhir.** Jangan membohongi diri sendiri (ingat P2).
-- **Menemui kendala?** Tanyakan di QnA kelas dan sertakan pesan galat (*error*) secara lengkap.
+Tidak ada *threshold* klasifikasi. Penggantinya adalah **ambang jarak** (persentil-99 jarak ke pusat segmen,
+1,84): pelanggan di atas ambang ini tetap diberi segmen terdekat, tetapi ditandai "di luar kebiasaan".
 
----
+| Segmen | Porsi anggota | Porsi omzet | Ciri (median) | Promo yang disarankan |
+|---|---|---|---|---|
+| Pelanggan Setia | 30% | 58% | 28 transaksi, 5 hari lalu, promo 20%, 68% di toko | program poin / tier, hadiah non-diskon |
+| Pemburu Promo Online | 25% | 12% | 11 transaksi, promo 82%, basket terkecil, dominan ojol | bundling dengan minimum belanja + voucher ambil di toko |
+| Pembeli Momen Spesial | 15% | 24% | 4 transaksi, ±Rp 276 ribu/transaksi, kue ulang tahun & snack box | pengingat acara + pre-order + bonus layanan |
+| Mulai Menghilang | 30% | 5% | 110 hari tidak datang, rating terendah (3,6) | voucher win-back berbatas waktu + survei perbaikan |
 
-## Istilah yang sering muncul
+## Cara menjalankan
 
-| Istilah | Arti singkat |
-|---|---|
-| *Baseline* | Model atau aturan paling sederhana yang menjadi pembanding. Model kalian dianggap berguna jika lebih baik daripada *baseline*. |
-| Fitur | Kolom masukan yang dipakai model untuk menebak. Fitur bisa diambil langsung dari data atau dibuat sendiri (misalnya selisih dua kolom). |
-| Target | Kolom yang ingin ditebak, misalnya `cacat` atau `konsumsi_kWh`. |
-| *Train*, *validation*, *test* | Tiga bagian data: untuk melatih model, untuk memilih model dan *threshold*, dan untuk ujian akhir yang dibuka sekali. |
-| *Stratified split* | Pembagian data acak yang menjaga proporsi kelas tetap sama di setiap bagian. |
-| Pembagian berdasarkan waktu | Data lama untuk melatih, data terbaru untuk menguji. Wajib untuk data deret waktu agar model tidak "melihat masa depan". |
-| Klasifikasi | Menebak kategori, misalnya cacat/tidak cacat. |
-| Regresi | Menebak angka, misalnya konsumsi listrik dalam kWh. |
-| Deret waktu (*time series*) | Data yang dicatat berurutan menurut waktu, misalnya per jam. |
-| *Threshold* | Batas probabilitas untuk memutuskan "ya". Probabilitas di atas batas dianggap "ya", di bawahnya "tidak". |
-| PR-AUC | Ukuran 0–1 untuk klasifikasi dengan kelas langka: seberapa baik model menemukan kasus positif tanpa terlalu banyak alarm palsu. Semakin dekat ke 1 semakin baik. |
-| F1 | Ukuran 0–1 yang menyeimbangkan *precision* (seberapa sering tebakan "ya" itu benar) dan *recall* (seberapa banyak kasus "ya" yang tertangkap). |
-| MAE | *Mean absolute error*: rata-rata selisih antara tebakan dan nilai sebenarnya, dalam satuan target. Semakin kecil semakin baik. |
-| *Artifact* | Hasil pelatihan yang disimpan: `model.joblib` (model) dan `metadata.json` (catatan versi, fitur, *threshold*, dan metrik). |
-| EDA | *Exploratory data analysis*: mengenali data sebelum membuat model, misalnya dengan statistik ringkas dan grafik. |
+```bash
+pip install -r requirements.txt
+streamlit run app/ui/streamlit_app.py   # aplikasi
+uvicorn app.api.main:app --reload       # API (opsional), dokumentasi di /docs
+pip install -r requirements-dev.txt
+pytest                                  # smoke test API: normal, ekstrem, tidak valid
+```
+
+Melatih ulang model: jalankan [`notebooks/01_segmentasi_pelanggan.ipynb`](notebooks/01_segmentasi_pelanggan.ipynb)
+dari awal sampai akhir; notebook menulis ulang `artifacts/model.joblib` dan `artifacts/metadata.json`.
+
+## Struktur repositori
+
+```
+kasus/05-segmentasi-umkm/  brief dan data mentah dari klien
+notebooks/                 notebook dari audit data sampai penyimpanan model
+data/                      data tersegmentasi + contoh CSV untuk aplikasi
+src/features.py            pembersihan dan pembuat fitur, dipakai saat pelatihan dan saat prediksi
+src/segmen.py              nama, profil, dan promo setiap segmen
+artifacts/                 model.joblib + metadata.json
+app/predictor.py           load model, validasi masukan, prediksi
+app/ui/streamlit_app.py    aplikasi untuk pemilik UMKM
+app/api/main.py            FastAPI
+tests/                     smoke test API
+```
+
+## Keterbatasan
+
+- Segmen adalah potret data 6 bulan sampai Juni 2026; pelanggan bisa berpindah segmen, jadi model perlu dilatih
+  ulang berkala (misalnya tiap bulan).
+- Data bersifat sintetis dan pemisahan segmennya sangat jelas; pada data toko sungguhan skor silhouette
+  kemungkinan lebih rendah.
+- Ketepatan rekomendasi promo belum terbukti. Perlu A/B test per segmen (promo khusus segmen vs promo biasa).
+- 283 tanggal daftar tidak konsisten dengan recency dan perlu dikonfirmasi ke klien.
+- Pelanggan yang belum pernah bertransaksi (0 transaksi) belum bisa disegmentasi.
+
+## Daftar periksa sebelum dikumpulkan
+
+- [ ] Repositori bersifat publik dan setiap anggota memiliki *commit*
+- [x] *Notebook* dapat dijalankan ulang dari awal sampai akhir tanpa galat
+- [x] *Baseline* wajib dilaporkan dan dibandingkan
+- [x] `artifacts/metadata.json` berisi versi model, fitur masukan, ambang, dan metrik
+- [ ] Aplikasi dapat dibuka orang lain melalui tautan, termasuk dari ponsel
+- [x] Aplikasi tidak berhenti mendadak ketika menerima masukan yang tidak wajar
+- [ ] Laporan paling banyak 6 halaman dan video paling lama 5 menit

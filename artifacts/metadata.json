@@ -1,0 +1,147 @@
+{
+  "versi_model": "1.0.0",
+  "dibuat": "2026-11-10",
+  "tugas": "segmentasi pelanggan (clustering, unsupervised)",
+  "algoritma": "StandardScaler + KMeans(k=4, n_init=20) pada log(recency), log(frekuensi), log(belanja per transaksi), dan persen pakai promo",
+  "fitur_input": [
+    "jumlah_transaksi_6bln",
+    "total_belanja_rp",
+    "hari_sejak_transaksi_terakhir",
+    "persen_pakai_promo"
+  ],
+  "fitur_model": [
+    "recency_log",
+    "frekuensi_log",
+    "basket_log",
+    "persen_pakai_promo"
+  ],
+  "k": 4,
+  "nama_cluster": {
+    "1": "Mulai Menghilang",
+    "2": "Pembeli Momen Spesial",
+    "0": "Pelanggan Setia",
+    "3": "Pemburu Promo Online"
+  },
+  "ambang_jarak": 1.8382,
+  "batas_input": {
+    "jumlah_transaksi_6bln": [
+      1,
+      500
+    ],
+    "total_belanja_rp": [
+      1000,
+      100000000
+    ],
+    "hari_sejak_transaksi_terakhir": [
+      0,
+      365
+    ],
+    "persen_pakai_promo": [
+      0,
+      100
+    ],
+    "belanja_per_transaksi": [
+      1000,
+      5000000
+    ]
+  },
+  "metrik": {
+    "silhouette_baseline_kmeans_rfm_mentah": 0.5538,
+    "k_terbaik_baseline": 4,
+    "silhouette_final": 0.6125,
+    "davies_bouldin_final": 0.5491,
+    "ari_stabilitas_antar_seed": 1.0,
+    "ari_stabilitas_subsampel_80": 1.0,
+    "persen_pelanggan_silhouette_di_atas_0_5": 88.3
+  },
+  "segmen": {
+    "Pelanggan Setia": {
+      "warna": "#2a78d6",
+      "profil": "Sangat sering belanja (median ~28x/6 bln), baru saja datang, jarang memakai promo, mayoritas beli langsung di toko.",
+      "promo": "Program poin / member tier: hadiah non-diskon (gratis upgrade ukuran, akses menu baru lebih dulu, free item di transaksi ke-10). Hindari diskon besar, mereka sudah membeli dengan harga normal.",
+      "median": {
+        "jumlah": 3019.0,
+        "porsi_%": 30.2,
+        "recency_hari": 5.0,
+        "transaksi_6bln": 28.0,
+        "total_belanja": 1304400.0,
+        "basket": 48110.34,
+        "promo_pct": 20.0,
+        "rating": 4.4,
+        "umur": 27.0,
+        "kontribusi_omzet_%": 58.5
+      }
+    },
+    "Pemburu Promo Online": {
+      "warna": "#eb6834",
+      "profil": "Belanja cukup rutin (~11x) dengan nilai kecil, hampir selalu memakai promo, dominan lewat aplikasi ojek online.",
+      "promo": "Promo bundling dengan minimum belanja (mis. beli 2 kopi + 1 roti hemat 15%) untuk menaikkan nilai per transaksi, serta voucher khusus ambil di toko atau pesan via aplikasi member agar tidak bergantung pada potongan ojol.",
+      "median": {
+        "jumlah": 2499.0,
+        "porsi_%": 25.0,
+        "recency_hari": 12.0,
+        "transaksi_6bln": 11.0,
+        "total_belanja": 337600.0,
+        "basket": 31742.86,
+        "promo_pct": 82.0,
+        "rating": 4.4,
+        "umur": 27.0,
+        "kontribusi_omzet_%": 12.5
+      }
+    },
+    "Pembeli Momen Spesial": {
+      "warna": "#1baf7a",
+      "profil": "Jarang belanja (~4x) tetapi nilai per transaksi sangat besar; favorit kue ulang tahun & paket snack, usia lebih matang, hampir tidak butuh promo.",
+      "promo": "Pengingat personal menjelang ulang tahun/acara + layanan pre-order kue, dan paket snack box untuk kantor/arisan. Beri bonus (lilin, kartu ucapan, ongkir gratis), bukan diskon.",
+      "median": {
+        "jumlah": 1501.0,
+        "porsi_%": 15.0,
+        "recency_hari": 30.0,
+        "transaksi_6bln": 4.0,
+        "total_belanja": 1047000.0,
+        "basket": 276220.0,
+        "promo_pct": 12.0,
+        "rating": 4.4,
+        "umur": 38.0,
+        "kontribusi_omzet_%": 24.3
+      }
+    },
+    "Mulai Menghilang": {
+      "warna": "#eda100",
+      "profil": "Sudah lama tidak datang (median ~110 hari), frekuensi dan belanja rendah, dan memberi rating paling rendah (~3,6), sehingga ada indikasi pengalaman yang kurang memuaskan.",
+      "promo": "Kampanye win-back: satu voucher kuat berbatas waktu (mis. diskon 30% berlaku 7 hari) dengan pesan 'kami rindu kamu' + survei singkat 'apa yang bisa kami perbaiki?', ditambah menu baru sebagai alasan untuk kembali.",
+      "median": {
+        "jumlah": 2981.0,
+        "porsi_%": 29.8,
+        "recency_hari": 110.0,
+        "transaksi_6bln": 3.0,
+        "total_belanja": 98500.0,
+        "basket": 41433.33,
+        "promo_pct": 34.0,
+        "rating": 3.6,
+        "umur": 27.0,
+        "kontribusi_omzet_%": 4.6
+      }
+    }
+  },
+  "data_latih": {
+    "sumber": "kasus/05-segmentasi-umkm/data/raw.csv",
+    "baris_awal": 10150,
+    "kecamatan_dirapikan": 254,
+    "duplikat_persis": 90,
+    "baris_setelah_dedup": 10000,
+    "umur_tidak_wajar": 100,
+    "umur_kosong": 300,
+    "rating_kosong": 800,
+    "recency_lebih_dari_masa_member": 283,
+    "recency_lebih_dari_180": 64,
+    "baris_akhir": 10000
+  },
+  "versi_library": {
+    "python": "3.13.7",
+    "sklearn": "1.9.1",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "joblib": "1.6.0"
+  }
+}
